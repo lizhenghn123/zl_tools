@@ -192,9 +192,6 @@ bool CppMysqlClient::connect(const char* host,
     mysql_ = mysql_init(NULL);
     SET_ERROR_INFO_AND_RETURN_IF_FAIL(mysql_, false);
 
-    char value = 1;
-    mysql_options(mysql_, MYSQL_OPT_RECONNECT, (char *)&value);
-
     MYSQL* mysql = mysql_real_connect(mysql_, host, user, passwd, db, port, NULL, client_flag);
     SET_ERROR_INFO_AND_RETURN_IF_FAIL(mysql, false);
 
@@ -204,6 +201,9 @@ bool CppMysqlClient::connect(const char* host,
         SET_ERROR_INFO_AND_RETURN_IF_FAIL(ret != 0, false);
     }
 
+    char value = 1;
+    mysql_options(mysql_, MYSQL_OPT_RECONNECT, (char *)&value);
+	
     return true;
 }
 
